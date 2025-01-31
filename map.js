@@ -174,7 +174,6 @@ const calcWeightedMidpoint = points => {
 }
 
 const showOnMap = (data) =>{
-console.log(data);
 moveMapToPlace(data.items[0].position);
 }
 
@@ -182,29 +181,26 @@ var coordinates = [];
 var points = [];
 const pushCoordinate=(data, index)=>{
   coordinates.push(data.items[0].position);
-  const weight = parseInt(document.getElementById("input-w-"+index).value);
-  points.push([Point(data.items[0].position.lat,data.items[0].position.lng),weight]);
+  const weight = parseInt(document.getElementById("weight").value);
+  points.push([Point(data.items[0].position.lat,data.items[0].position.lng),weight,data.items[0].title]);
+  document.getElementById('places').innerHTML = "";
+  points.forEach(showPlace);
+  document.getElementById("weight").value="";
+  document.getElementById("place").value="";
  }
 
- var rowCount = 0;
  const addNew = () => {
- findPlace(rowCount);
- rowCount++;
- var row = document.createElement('div');
- row.className = 'row';
- var place = document.createElement('input');
- place.type = 'text';
- place.id="place"+rowCount;
- var years = document.createElement('input');
-  years.type = 'number';
-  years.id="input-w-"+rowCount;
- row.appendChild(place);
- row.appendChild(years);
- document.getElementById('points').appendChild(row);
+  findPlace();
+ }
+
+ const showPlace = ([point,weight,title])=>{
+ var place = document.createElement('div');
+  place.textContent= "Lived in "+title +" for " +weight +" years";
+  document.getElementById('places').appendChild(place);
  }
 
 const findPlace = (index) => {
- const place = document.getElementById("place"+index).value;
+const place = document.getElementById("place").value;
 const apiUrl = 'https://geocode.search.hereapi.com/v1/geocode?q='+ place +'&apiKey=WGvRagTfl0dzKfXcMbxhr1HEEwvWl0HZN76PRiJAhzk';
 
 // Make a GET request
@@ -220,9 +216,7 @@ fetch(apiUrl)
     showOnMap(data);
     pushCoordinate(data, index);
   })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  .catch(error => console.error('Error:', error));
 }
 
 const draw = () => {
@@ -230,4 +224,10 @@ const draw = () => {
     drawMultiline(coordinates,intersectPoint);
     drawPin(intersectPoint, "red");
     setView(coordinates,5)
+      document.getElementById("weight").value="";
+      document.getElementById("place").value="";
+      document.getElementById('places').innerHTML = "";
+      coordinates=[];
+      points=[];
+
 }

@@ -13,16 +13,22 @@
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
 </head>
 <body id="markers-on-the-map">
+<div class="header"><h1>Where are you really from?</h1>
+  <p>This is fun way to determine where are you from when asked, in case you have moved a lot
+  We use the given place coordinates and years spent there, to do a triangulation and calculate a spot in the middle.
+    The calculation of the common point uses the year values as weight to pull more or less to the given place</p>
+</div>
+<div class="content">
 <div id="map"></div>
 <div id="points">
   <div class="row">
-    <input type="text" id="place0" placeholder="Enter place name"/><input type="number" id="input-w-0" placeholder="Enter years"/>
+    <div id="places" class="places"></div>
+    <input type="text" id="place" placeholder="Enter place name"/><input type="number" id="weight" placeholder="Enter years"/>
+    <input type="button" class="add" value="Add" onclick="addNew()"/> <input type="button" class="calc" value="Calculate" onclick="draw()"/>
   </div>
 </div>
-<input type="button" value="Find" onclick="addNew()"/>
-<div id="buttons">
-  <input type="button" value="DRAW" onclick="draw()"/>
-</div>
 <script type="text/javascript" src='map.js'></script>
+<p class="disclaimer">Disclaimer: We do not store any information regarding the cities nor length of stay. This page does not have cookies</p>
+</div>
 </body>
 </html>

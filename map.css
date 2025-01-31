@@ -1,6 +1,6 @@
 
 #map {
-    width: 95%;
+    width: 100%;
     height: 800px;
     background: grey;
       margin: 8px 0;
@@ -16,7 +16,7 @@
 }
 
 
-input {
+input[type=text], input[type=number] {
   width: 20%;
   padding: 12px 20px;
   margin: 8px 8px;
@@ -26,9 +26,8 @@ input {
   box-sizing: border-box;
 }
 
-input[type=button] {
-  width: 20%;
-  background-color: #4CAF50;
+input.add[type=button] {
+  background-color: #A45B89;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -37,6 +36,61 @@ input[type=button] {
   cursor: pointer;
 }
 
-input[type=button]:hover {
-  background-color: #45a049;
+input.calc[type=button]{
+  width: 20%;
+  background-color: #90a35c;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input.calc[type=button]:hover {
+  background-color: #a8be41;
+}
+input.add[type=button]:hover {
+  background-color: #C53A7D;
+}
+
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+/* Header/Logo Title */
+.header {
+  padding: 5px;
+  text-align: center;
+  background: #3ba4c4;
+  color: white;
+  font-size: 18px;
+}
+
+.places {
+  padding: 3px;
+  text-align: center;
+  background: #3ba4c4;
+  color: white;
+  font-size: 15px;
+}
+
+/* Page Content */
+.content {
+padding:5px;
+}
+
+.content p {
+width:100%;
+text-align: center;
+}
+
+.content.places div {
+}
+
+.disclaimer {
+  position: absolute;
+  left:0;
+  bottom: 0;
 }
