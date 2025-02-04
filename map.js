@@ -1,5 +1,4 @@
 window.apiKey = "WGvRagTfl0dzKfXcMbxhr1HEEwvWl0HZN76PRiJAhzk";
-var alertWarningUi = document.getElementById('alert-warning');
 var platform = new H.service.Platform({
   apikey: window.apiKey
 });
