@@ -172,16 +172,12 @@ const calcWeightedMidpoint = points => {
   return {lat: resultPoint.x, lng:resultPoint.y};
 }
 
-const showOnMap = (data) =>{
-moveMapToPlace(data.items[0].position);
-}
-
 var coordinates = [];
 var points = [];
-const pushCoordinate=(data, index)=>{
-  coordinates.push(data.items[0].position);
+const pushCoordinate=(position, title)=>{
+  coordinates.push(position);
   const weight = parseInt(document.getElementById("weight").value);
-  points.push([Point(data.items[0].position.lat,data.items[0].position.lng),weight,data.items[0].title]);
+  points.push([Point(position.lat,position.lng),weight,title]);
   document.getElementById('places').innerHTML = "";
   points.forEach(showPlace);
   document.getElementById("weight").value="";
@@ -189,7 +185,8 @@ const pushCoordinate=(data, index)=>{
  }
 
  const addNew = () => {
-  findPlace();
+ const placeId = document.getElementById("placeId").value;
+ lookup(placeId);
  }
 
  const showPlace = ([point,weight,title])=>{
@@ -198,11 +195,9 @@ const pushCoordinate=(data, index)=>{
   document.getElementById('places').appendChild(place);
  }
 
-const findPlace = (index) => {
-const place = document.getElementById("place").value;
-const apiUrl = 'https://geocode.search.hereapi.com/v1/geocode?q='+ place +'&apiKey=WGvRagTfl0dzKfXcMbxhr1HEEwvWl0HZN76PRiJAhzk';
-
-// Make a GET request
+const lookup = (id) => {
+if(id.length>0){
+const apiUrl = 'https://autocomplete.search.hereapi.com/v1/lookup?id='+ id +'&apiKey='+window.apiKey;
 fetch(apiUrl)
   .then(response => {
     if (!response.ok) {
@@ -211,12 +206,15 @@ fetch(apiUrl)
     return response.json();
   })
   .then(data => {
-    drawPin(data.items[0].position, "green");
-    showOnMap(data);
-    pushCoordinate(data, index);
+    drawPin(data.position, "green");
+    moveMapToPlace(data.position);
+    pushCoordinate(data.position, data.title);
   })
   .catch(error => console.error('Error:', error));
+  }
 }
+
+
 
 const draw = () => {
     const intersectPoint = calcWeightedMidpoint(points);
@@ -230,3 +228,88 @@ const draw = () => {
       points=[];
 
 }
+
+const autocomplete = (inp,inpId) => {
+  var currentFocus;
+  inp.addEventListener("input", function(e) {
+      var a, b, val = this.value;
+      if(val.length > 2){
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(a);
+      const apiUrl = 'https://autocomplete.search.hereapi.com/v1/autocomplete?limit=3&q='+ val +'&apiKey='+window.apiKey;
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+         drawAutocompleteList(data,val, inp, a, b, inpId);
+        })
+        .catch(error => console.error('Error:', error));
+      }
+  });
+
+  const drawAutocompleteList = (arr, val, inp, a, b, inpId) =>{
+  var i;
+  for (i = 0; i < arr.items.length; i++) {
+            b = document.createElement("DIV");
+            b.innerHTML = arr.items[i].title;
+            b.innerHTML += "<input type='hidden' value='" + arr.items[i].title + "'>";
+            document.getElementById(inpId).value=arr.items[i].id;
+            b.addEventListener("click", function(e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+            });
+            a.appendChild(b);
+        }
+  }
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        currentFocus++;
+        addActive(x);
+      } else if (e.keyCode == 38) {
+        currentFocus--;
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        e.preventDefault();
+        if (currentFocus > -1) {
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    if (!x) return false;
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+autocomplete(document.getElementById("place"),"placeId");
