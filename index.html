@@ -6,24 +6,26 @@
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
   <title>Map at a specified location</title>
-  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-  <link rel="stylesheet" type="text/css" href="map.css" />
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"/>
+  <link rel="stylesheet" type="text/css" href="map.css"/>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/thinline.css">
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
 </head>
 <body id="markers-on-the-map">
-<!-- Controls -->
+<header class="w3-center w3-blue w3-padding-16 w3-content" style="max-width:1500px;">
+  <p class="disclaimer">This page triangulates a place on the map based on the places listed and the years (weights) specified for each place. The bigger the value, the closer the cross point to that location</p>
+</header>
 <div class="w3-content w3-padding" style="max-width:1564px">
-  <!-- Contact Section -->
   <div class="w3-container w3-padding-2" id="contact">
-    <h3 class="w3-border-bottom w3-border-light-grey">Places lived</h3>
+    <h3 class="w3-border-bottom w3-border-light-grey" >Places lived</h3>
     <p>Lets enter place names and length of stay in years.</p>
     <div class="places w3-center w3-light-gray">
       <div class="wrapper">
-        <div class="w3-container">
-          <ul><div id="places" class="w3-display-container"></div></ul>
+        <div class="w3-display-container content">
+          <ul></ul>
         </div>
         <div class="w3-row-padding">
           <div class="w3-col l4 m6">
@@ -40,7 +42,7 @@
           <div class="w3-col l4 m6 ">
             <div class="w3-display-container">
               <input type="button" class="w3-button w3-blue w3-section" value="Add" onclick="addNew()"/>
-              <input type="button" class="w3-button w3-orange w3-section" value="Remove all" onclick="clear()"/>
+              <input type="button" class="w3-button w3-orange w3-section" value="Remove all" onclick="removeAll()"/>
               <input type="button" class="w3-button w3-green w3-section" value="Calculate" onclick="draw()"/>
             </div>
           </div>
@@ -53,8 +55,9 @@
     </div>
   </div>
 </div>
-<footer class="w3-center w3-black w3-padding-16 w3-content" style="max-width:1500px;">
-  <p class="disclaimer">Disclaimer: We do not store any information regarding the cities nor length of stay. This page does not have cookies</p>
+<footer class="w3-center w3-dark-gray w3-padding-16 w3-content" style="max-width:1500px;">
+  <p class="disclaimer">This page does not store any information and does not contain cookies. If the search doesn't work, we have reached the limit per day, please try again tomorrow.</p>
+  <p>I am aware that is painfully obvious that this page needs a designer's touch</p>
 </footer>
 <script type="text/javascript" src='map.js'></script>
 </body>
