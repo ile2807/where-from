@@ -179,14 +179,14 @@ const pushCoordinate=(position, title)=>{
   document.getElementById("place").value="";
 }
 
-const addNew = () => {
+const addNew = (next) => {
   const placeId = document.getElementById("placeId").value;
   if(placeId){
-    lookup(placeId);
+    lookup(placeId, next);
   }
 }
 
-const lookup = (id) => {
+const lookup = (id, next) => {
   if(id.length>0){
     const apiUrl = 'https://autocomplete.search.hereapi.com/v1/lookup?id='+ id +'&apiKey='+window.apiKey;
     fetch(apiUrl)
@@ -200,9 +200,16 @@ const lookup = (id) => {
       drawPin(data.position, "green");
       moveMapToPlace(data.position);
       pushCoordinate(data.position, data.title);
+      if (typeof next === 'function') {
+        next();
+      }
     })
       .catch(error => console.error('Error:', error));
   }
+}
+
+const drawWithAdd = () =>{
+  addNew(draw);
 }
 
 const draw = () => {
@@ -221,7 +228,6 @@ const draw = () => {
     setView(coordinates,5)
     document.getElementById("weight").value="";
     document.getElementById("place").value="";
-    document.getElementById('places').innerHTML = "";
   }else{
     alert("You must enter at least two places")
   }
