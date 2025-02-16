@@ -38,7 +38,6 @@ const drawPin = (position, color) => {
     <circle cx="50" cy="50" r="4" fill="black"/>
     </svg>`,
   size = {w: 30, h: 30},
-  // we need to specify the correct hit area as the default one for custom icon is rectangular shape
   hitArea = new H.map.HitArea(H.map.HitArea.ShapeType.CIRCLE, [size.w/2, size.h/2, size.w/2]),
   icon = new H.map.Icon(
     svg.replace('FILL_COLOR', color),
@@ -122,7 +121,6 @@ const atan2 = (y,x) => rad2deg(Math.atan2(y,x))
 const cos = x => Math.cos(deg2rad(x))
 const sin = x => Math.sin(deg2rad(x))
 
-// Point
 const Point = (x,y) => ({
   x,
   y,
@@ -139,7 +137,6 @@ const Point = (x,y) => ({
 Point.origin = Point(0,0)
 Point.fromVector = ({a,m}) => Point(m * cos(a), m * sin(a))
 
-// Vector
 const Vector = (a,m) => ({
   a,
   m,
@@ -188,7 +185,7 @@ const addNew = (next) => {
 
 const lookup = (id, next) => {
   if(id.length>0){
-    const apiUrl = 'https://autocomplete.search.hereapi.com/v1/lookup?id='+ id +'&apiKey='+window.apiKey;
+    const apiUrl = 'https://autocomplete.search.hereapi.com/v1/lookup?id='+ id +'&apiKey='+window.apiKey +'&lang=en';
     fetch(apiUrl)
       .then(response => {
       if (!response.ok) {
@@ -228,8 +225,6 @@ const draw = () => {
     setView(coordinates,5)
     document.getElementById("weight").value="";
     document.getElementById("place").value="";
-  }else{
-    alert("You must enter at least two places")
   }
 }
 
@@ -291,19 +286,20 @@ const autocomplete = (inp,inpId) => {
       }
     }
   });
-  function addActive(x) {
+
+  const addActive = (x) => {
     if (!x) return false;
     removeActive(x);
     if (currentFocus >= x.length) currentFocus = 0;
     if (currentFocus < 0) currentFocus = (x.length - 1);
     x[currentFocus].classList.add("autocomplete-active");
   }
-  function removeActive(x) {
+  const removeActive = (x) => {
     for (var i = 0; i < x.length; i++) {
       x[i].classList.remove("autocomplete-active");
     }
   }
-  function closeAllLists(elmnt) {
+  const closeAllLists = (elmnt) => {
     var x = document.getElementsByClassName("autocomplete-items");
     for (var i = 0; i < x.length; i++) {
       if (elmnt != x[i] && elmnt != inp) {
@@ -317,11 +313,9 @@ const autocomplete = (inp,inpId) => {
   });
 }
 
-autocomplete(document.getElementById("place"),document.getElementById("placeId"));
-
 const ul = document.querySelector("ul");
 
-function createTag(){
+const createTag = () => {
   const ul = document.querySelector("ul")
   ul.querySelectorAll("li").forEach(li => li.remove());
   points.slice().reverse().forEach(tag =>{
@@ -331,7 +325,7 @@ function createTag(){
   });
 }
 
-function remove(element, name){
+const remove = (element, name) => {
   var newPoints = [];
   points.forEach(p=>{
     if(name!==p[2]) newPoints.push(p);
@@ -349,7 +343,7 @@ const removeAll = (e) => {
 const checkEnterWeight = (e, nextId) => {
   if(e.key == "Enter"){
     if(document.getElementById("weight").value){
-      addNew();
+      drawWithAdd();
       document.getElementById("place").focus();
     }
     else{
@@ -362,6 +356,12 @@ const checkEnterPlace = (e) => {
     document.getElementById("weight").focus();
   }
 }
-document.getElementById("place").addEventListener("keyup", checkEnterPlace);
-document.getElementById("weight").addEventListener("keyup", checkEnterWeight);
+
+const initPage=()=>{
+  document.getElementById("place").addEventListener("keyup", checkEnterPlace);
+  document.getElementById("weight").addEventListener("keyup", checkEnterWeight);
+  autocomplete(document.getElementById("place"),document.getElementById("placeId"));
+}
+
+initPage();
 

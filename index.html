@@ -18,7 +18,8 @@
 <header class="w3-center w3-blue w3-padding-16 w3-content" style="max-width:1500px;">
 <div>
   <img class="logo inline" src="logo.png"/>
-<p class="disclaimer inline">This page triangulates a place on the map based on the places listed and the years (weights) specified for each place. The bigger the value, the closer the cross point to that location</p>
+<p class="disclaimer inline">This page triangulates a place on the map based on the places listed and the years (weights) specified for each place.
+  The bigger the value, the closer the cross point to that location. As places are added, the common point is recalculated</p>
 </div>
 </header>
 <div class="w3-content w3-padding" style="max-width:1564px">
@@ -44,9 +45,8 @@
           </div>
           <div class="w3-col l4 m6 ">
             <div class="w3-display-container">
-              <input type="button" class="w3-button w3-blue w3-section" value="Add" onclick="addNew()"/>
+              <input type="button" class="w3-button w3-green w3-section" value="Add" onclick="drawWithAdd()"/>
               <input type="button" class="w3-button w3-orange w3-section" value="Remove all" onclick="removeAll()"/>
-              <input type="button" class="w3-button w3-green w3-section" value="Calculate" onclick="drawWithAdd()"/>
             </div>
           </div>
         </div>
