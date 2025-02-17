@@ -48,7 +48,7 @@ ul{
   display: flex;
   flex-wrap: wrap;
   padding-left: 12px;
-  padding-top: 10px;
+  padding-top: 12px;
   margin: 0px;
   border-radius: 5px;
 }
@@ -57,7 +57,7 @@ ul  li{
   margin: 4px 3px;
   list-style: none;
   border-radius: 5px;
-  background: #F2F2F2;
+  background: #afafaf;
   padding: 5px 8px 5px 10px;
   border: 1px solid #e3e1e1;
 }
@@ -87,3 +87,16 @@ ul li i{
 .inline {
   display: inline-block;
 }
+
+.w3-section,.w3-code {
+  margin-top: 8px!important;
+  margin-bottom: 8px !important;
+}
+
+.arrow {
+  padding-left:3px;
+  padding-right:3px;
+  width: 29px
+
+}
+

@@ -321,7 +321,8 @@ const createTag = () => {
   ul.querySelectorAll("li").forEach(li => li.remove());
   points.slice().reverse().forEach(tag =>{
     const cityName = tag[2].split(",")[0];
-    const liTag = `<li>${cityName} -> ${tag[1]}<i class="uit uit-multiply" onclick="remove(this, '${tag[2]}')"></i></li>`;
+    const arrowImage = `<img src="arrow.png" class="arrow"/>`
+    const liTag = `<li>${cityName} ${arrowImage} ${tag[1]}<i class="uit uit-multiply" onclick="remove(this, '${tag[2]}')"></i></li>`;
     ul.insertAdjacentHTML("afterbegin", liTag);
   });
 }
