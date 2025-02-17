@@ -200,6 +200,7 @@ const lookup = (id, next) => {
       if (typeof next === 'function') {
         next();
       }
+      document.getElementById("placeId").value="";
     })
       .catch(error => console.error('Error:', error));
   }
@@ -332,6 +333,7 @@ const remove = (element, name) => {
   });
   points = newPoints;
   element.parentElement.remove();
+  draw();
 }
 
 const removeAll = (e) => {
